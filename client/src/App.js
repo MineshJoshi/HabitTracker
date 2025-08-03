@@ -8,7 +8,8 @@ import RegisterPage from './components/RegisterPage';
 import LoginPage from './components/LoginPage';
 import HabitDetailPage from './components/HabitDetailPage';
 import BackgroundShapes from './components/BackgroundShapes';
-import AboutPage from './components/AboutPage'; // Naya page import kiya
+import AboutPage from './components/AboutPage';
+import HowToUsePage from './components/HowToUsePage'; // Naya page import kiya
 import './App.css';
 
 function App() {
@@ -84,6 +85,8 @@ function App() {
         return <motion.div key="home"><HomePage navigateToTracker={() => setCurrentPage(token ? 'tracker' : 'login')} /></motion.div>;
       case 'about':
         return <motion.div key="about"><AboutPage /></motion.div>;
+      case 'how-to-use': // Naya case add kiya
+        return <motion.div key="how-to-use"><HowToUsePage /></motion.div>;
       case 'tracker':
         return <motion.div key="tracker-main"><TrackerPage viewHabitDetails={viewHabitDetails} /></motion.div>;
       case 'register':

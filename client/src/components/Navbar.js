@@ -33,6 +33,12 @@ function Navbar({ currentPage, setCurrentPage, token, logout, theme, toggleTheme
           Home
         </MotionButton>
         <MotionButton 
+          className={currentPage === 'how-to-use' ? 'nav-link active' : 'nav-link'}
+          onClick={() => setCurrentPage('how-to-use')}
+        >
+          How to Use
+        </MotionButton>
+        <MotionButton 
           className={currentPage === 'about' ? 'nav-link active' : 'nav-link'}
           onClick={() => setCurrentPage('about')}
         >
