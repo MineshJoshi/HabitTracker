@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 function HowToUsePage() {
   return (
     <motion.div
-      className="about-container" // Hum "About Us" page jaisi hi style use karenge
+      className="about-container" // We will use the same styling as the "About Us" page
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -13,38 +13,38 @@ function HowToUsePage() {
       
       <h4>1. Register Your Account</h4>
       <p>
-        Sabse pehle, ek naya account banayein. Navbar me "Register" par click karein aur apna Full Name, Email, Username, aur ek surakshit Password daalein. Yeh aapka personal space banayega.
+        First, create a new account. Click on "Register" in the Navbar and enter your Full Name, Email, Username, and a secure Password. This will create your personal space.
       </p>
 
       <h4>2. Login to Your Dashboard</h4>
       <p>
-        Register karne ke baad, "Login" page par jaayein aur apne Username aur Password se login karein. Login karte hi aap apne personal Habit Tracker par pahunch jayenge.
+        After registering, go to the "Login" page and log in with your Username and Password. Upon logging in, you will be taken to your personal Habit Tracker.
       </p>
 
       <h4>3. Add a New Habit</h4>
       <p>
-        Apni nayi aadat (habit) add karne ke liye, upar diye gaye box me aadat ka naam likhein (jaise "Morning Walk" ya "Read a book") aur "Add" button par click karein. Aapki aadat list me jud jayegi.
+        To add a new habit, type the name of the habit in the input box at the top (e.g., "Morning Walk" or "Read a book") and click the "Add" button. Your habit will be added to the list.
       </p>
 
       <h4>4. Track Your Daily Progress</h4>
       <p>
-        Har aadat ke saamne aapko pichhle 7 dinon ke box dikhenge. Har din ke box par click karke aap uska status badal sakte hain:
+        In front of each habit, you will see boxes for the last 7 days. You can click on each day's box to change its status:
         <ul>
-            <li><strong>Green (Done):</strong> Aapne aadat poori ki.</li>
-            <li><strong>Red (Not Done):</strong> Aap aadat poori nahi kar paaye.</li>
-            <li><strong>Grey (None):</strong> Koi status nahi.</li>
+            <li><strong>Green (Done):</strong> You completed the habit.</li>
+            <li><strong>Red (Not Done):</strong> You did not complete the habit.</li>
+            <li><strong>Grey (None):</strong> No status has been set.</li>
         </ul>
-        Agar aap koi din bhool jaate hain, toh agle din login karne par app use apne aap 'Not Done' (Red) mark kar degi.
+        If you forget to mark a day, the app will automatically mark it as 'Not Done' (Red) the next time you log in.
       </p>
 
       <h4>5. View Detailed History</h4>
       <p>
-        Kisi bhi aadat ke naam par click karke aap uska poora calendar dekh sakte hain. Isse aapko apne poore mahine ki progress ka pata chalega.
+        By clicking on the name of any habit, you can view its complete calendar. This will give you an overview of your progress for the entire month.
       </p>
 
       <h4>6. Stay Motivated!</h4>
       <p>
-        Jab aap koi aadat lagatar poori karte hain, toh aapko ek "Streak Counter" (🔥) dikhega. Koshish karein ki aapki streak toote nahi!
+        When you complete a habit for consecutive days, you will see a "Streak Counter" (🔥). Try not to break your streak!
       </p>
     </motion.div>
   );
