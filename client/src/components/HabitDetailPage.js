@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { motion } from 'framer-motion';
-import api from '../api'; // Naya import
+import api from '../api';
 
 function HabitDetailPage({ habitId, backToTracker }) {
     const [habit, setHabit] = useState(null);
@@ -18,7 +18,7 @@ function HabitDetailPage({ habitId, backToTracker }) {
         };
         fetchHabitDetails();
     }, [habitId]);
-
+    
     const tileClassName = ({ date, view }) => { if (view === 'month' && habit) { const dateString = date.toISOString().split('T')[0]; const record = habit.dates.find(d => d.date === dateString); if (record) { return `calendar-tile ${record.status}`; } } return null; };
 
     if (loading) { return <div className="status-message">Loading Details...</div>; }

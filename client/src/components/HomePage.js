@@ -1,13 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// Parent container ke liye animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.3, // Children ko ek ke baad ek animate karega
+      staggerChildren: 0.3,
     },
   },
   exit: {
@@ -16,7 +15,6 @@ const containerVariants = {
   }
 };
 
-// Child elements ke liye animation variants
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
   visible: { y: 0, opacity: 1 },

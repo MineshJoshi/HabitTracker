@@ -10,13 +10,11 @@ function BackgroundShapes() {
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Cleanup function to remove event listener
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
-  // Har shape ke liye alag speed (multiplier)
   const multipliers = [0.01, 0.02, 0.015, 0.03, 0.025, 0.01, 0.02];
 
   return (
