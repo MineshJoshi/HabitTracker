@@ -4,17 +4,21 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 import habitRoutes from "./routes/habits.js";
-import userRoutes from "./routes/users.js"; // Naya route import kiya
+import userRoutes from "./routes/users.js";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+// CORS ko update kiya taaki sirf aapki live website se request aa sake
+app.use(cors({
+  origin: 'https://habit-tracker-alpha-murex.vercel.app' 
+}));
 
 // Use routes
 app.use("/habits", habitRoutes);
-app.use("/users", userRoutes); // Naye route ko use kiya
+app.use("/users", userRoutes);
 
 const PORT = process.env.PORT || 5000;
 
