@@ -50,7 +50,6 @@ body {
   margin: 0;
   overflow-x: hidden;
   transition: background 0.5s ease;
-  /* Custom Cursor */
   cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%231a2c42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>'), auto;
 }
 
@@ -87,6 +86,7 @@ button, .nav-brand, .habit-name-text, .status-box {
   color: var(--text-primary);
   margin-bottom: 30px;
   text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
 }
 
 .navbar {
@@ -102,6 +102,7 @@ button, .nav-brand, .habit-name-text, .status-box {
   position: relative;
   z-index: 2;
   transition: background 0.5s ease, border-bottom 0.5s ease;
+  flex-wrap: wrap; /* Navbar ko wrap hone ki permission di */
 }
 
 .nav-brand {
@@ -170,6 +171,7 @@ button, .nav-brand, .habit-name-text, .status-box {
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   transition: background 0.5s ease, border 0.5s ease;
+  box-sizing: border-box; /* Yeh zaroori hai */
 }
 .homepage-container { max-width: 600px; text-align: center; }
 .auth-container { max-width: 450px; text-align: center; }
@@ -230,6 +232,7 @@ button, .nav-brand, .habit-name-text, .status-box {
 
 .habit-name-header, .date-header {
   font-weight: 600;
+  text-align: center;
   color: var(--text-primary);
 }
 .habit-name {
@@ -288,3 +291,69 @@ button, .nav-brand, .habit-name-text, .status-box {
 .shape-5 { animation-delay: 0s; }
 .shape-6 { background-color: var(--shape-bg); animation-delay: 3s; }
 .shape-7 { background-color: var(--shape-bg); animation-delay: 7s; }
+
+
+/* =================================
+   RESPONSIVE DESIGN (MOBILE VIEW)
+   ================================= */
+@media (max-width: 768px) {
+  .content-area {
+    padding: 20px 10px;
+  }
+
+  .page-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  .navbar {
+    padding: 10px 15px;
+    justify-content: center; /* Center me laaya */
+    gap: 10px; /* Thoda gap diya */
+  }
+
+  .nav-brand {
+    width: 100%; /* Poori width di */
+    text-align: center; /* Center me laaya */
+    margin-bottom: 10px;
+  }
+
+  .nav-links {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .homepage-content h1 {
+    font-size: 36px;
+  }
+
+  .header-row, .habit-row {
+    grid-template-columns: 1.5fr repeat(7, 1fr); /* Habit name ko thodi kam jagah */
+    padding: 8px 0;
+  }
+
+  .habit-name {
+    font-size: 14px;
+    padding-left: 5px;
+    word-break: break-word; /* Lambe naam ko todne ke liye */
+  }
+
+  .date-header {
+    font-size: 12px;
+  }
+
+  .status-box {
+    width: 28px;
+    height: 28px;
+  }
+
+  .streak-counter {
+    font-size: 10px;
+    padding: 1px 6px;
+    margin-left: 5px;
+  }
+
+  .react-calendar__tile {
+    height: 45px; /* Calendar ko chota kiya */
+  }
+}
