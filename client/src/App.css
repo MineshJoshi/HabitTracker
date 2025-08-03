@@ -357,3 +357,33 @@ button, .nav-brand, .habit-name-text, .status-box {
     height: 45px; /* Calendar ko chota kiya */
   }
 }
+
+/* About Page Styles */
+.about-container {
+  max-width: 700px;
+  padding: 40px !important;
+  text-align: left;
+}
+.about-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: var(--text-primary);
+}
+.about-container p {
+  line-height: 1.8;
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+}
+
+/* Auth Page Switch Link Styles */
+.auth-switch {
+  margin-top: 25px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.auth-switch span {
+  color: var(--btn-primary-bg);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}

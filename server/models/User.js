@@ -1,6 +1,18 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
+  fullName: { // Naya field
+    type: String,
+    required: true,
+    trim: true,
+  },
+  email: { // Naya field
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    lowercase: true,
+  },
   username: {
     type: String,
     required: true,

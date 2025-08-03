@@ -7,21 +7,26 @@ import dotenv from 'dotenv';
 dotenv.config();
 const router = express.Router();
 
-// @route   POST /users/register
+// Register Route
 router.post('/register', async (req, res) => {
-  const { username, password } = req.body;
+  const { fullName, email, username, password } = req.body; // Naye fields liye
 
-  // Password validation
   if (password.length < 6) {
     return res.status(400).json({ message: 'Password must be at least 6 characters long' });
   }
 
   try {
-    let user = await User.findOne({ username });
-    if (user) {
-      return res.status(400).json({ message: 'User already exists' });
+    let userByEmail = await User.findOne({ email });
+    if (userByEmail) {
+      return res.status(400).json({ message: 'Email already exists' });
     }
-    user = new User({ username, password });
+
+    let userByUsername = await User.findOne({ username });
+    if (userByUsername) {
+        return res.status(400).json({ message: 'Username already exists' });
+    }
+
+    let user = new User({ fullName, email, username, password });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
     await user.save();
@@ -31,7 +36,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// @route   POST /users/login
+// Login Route
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -48,7 +53,7 @@ router.post('/login', async (req, res) => {
     const payload = {
       user: {
         id: user.id,
-        username: user.username // Username ko payload me add kiya
+        username: user.username
       },
     };
 

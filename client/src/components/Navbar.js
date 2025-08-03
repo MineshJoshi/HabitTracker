@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import ThemeToggle from './ThemeToggle'; // Naya component import kiya
+import ThemeToggle from './ThemeToggle';
 
 const MotionButton = ({ className, onClick, children }) => (
   <motion.button
@@ -25,12 +25,18 @@ function Navbar({ currentPage, setCurrentPage, token, logout, theme, toggleTheme
         HabitDot 🎯
       </motion.div>
       <div className="nav-links">
-        <ThemeToggle theme={theme} toggleTheme={toggleTheme} /> {/* Toggle button yahan add kiya */}
+        <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         <MotionButton 
           className={currentPage === 'home' ? 'nav-link active' : 'nav-link'}
           onClick={() => setCurrentPage('home')}
         >
           Home
+        </MotionButton>
+        <MotionButton 
+          className={currentPage === 'about' ? 'nav-link active' : 'nav-link'}
+          onClick={() => setCurrentPage('about')}
+        >
+          About
         </MotionButton>
         {token && (
           <MotionButton 
