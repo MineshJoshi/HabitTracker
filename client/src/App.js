@@ -19,46 +19,65 @@ function App() {
   const [viewingHabitId, setViewingHabitId] = useState(null);
   const [theme, setTheme] = useState('light');
 
-  console.log("App Rendered -> Current Page:", currentPage, "| Token Exists:", !!token);
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
 
-  const toggleTheme = () => { /* ... code same rahega ... */ };
-  useEffect(() => { /* ... code same rahega ... */ }, []);
-  useEffect(() => { /* ... code same rahega ... */ }, [theme]);
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+  }, []);
+
+  useEffect(() => {
+    document.body.setAttribute('data-theme', theme);
+  }, [theme]);
 
   const handleLogin = (token) => {
-    console.log("1. handleLogin function called.");
     try {
       const decoded = jwtDecode(token);
-      console.log("2. Token decoded successfully:", decoded);
       setUsername(decoded.user.username);
       setToken(token);
       localStorage.setItem('token', token);
       setCurrentPage('tracker');
     } catch (error) {
-      console.error("Error decoding token in handleLogin:", error);
+      console.error("Error decoding token:", error);
       logout();
     }
   };
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    console.log("App Loading -> Found token in localStorage:", storedToken);
     if (storedToken) {
       handleLogin(storedToken);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const logout = () => { /* ... code same rahega ... */ };
-  const viewHabitDetails = (habitId) => { /* ... code same rahega ... */ };
-  const backToTracker = () => { /* ... code same rahega ... */ };
+  const logout = () => {
+    setToken(null);
+    setUsername('');
+    setViewingHabitId(null);
+    localStorage.removeItem('token');
+    setCurrentPage('home');
+  };
+
+  const viewHabitDetails = (habitId) => {
+    setViewingHabitId(habitId);
+    setCurrentPage('detail');
+  };
+
+  const backToTracker = () => {
+    setViewingHabitId(null);
+    setCurrentPage('tracker');
+  };
 
   const renderPage = () => {
     if (viewingHabitId) {
         return <motion.div key="detail"><HabitDetailPage habitId={viewingHabitId} backToTracker={backToTracker} /></motion.div>;
     }
     if (currentPage === 'tracker' && !token) {
-      console.log("Redirecting to Login page because no token.");
       return <motion.div key="login-redirect"><LoginPage handleLogin={handleLogin} setCurrentPage={setCurrentPage} /></motion.div>;
     }
     switch (currentPage) {
@@ -69,7 +88,6 @@ function App() {
       case 'how-to-use':
         return <motion.div key="how-to-use"><HowToUsePage /></motion.div>;
       case 'tracker':
-        console.log("Rendering TrackerPage.");
         return <motion.div key="tracker-main"><TrackerPage token={token} viewHabitDetails={viewHabitDetails} /></motion.div>;
       case 'register':
         return <motion.div key="register"><RegisterPage setCurrentPage={setCurrentPage} /></motion.div>;
