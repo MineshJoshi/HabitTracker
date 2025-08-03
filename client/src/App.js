@@ -10,7 +10,7 @@ import HabitDetailPage from './components/HabitDetailPage';
 import BackgroundShapes from './components/BackgroundShapes';
 import AboutPage from './components/AboutPage';
 import HowToUsePage from './components/HowToUsePage';
-import './App.css';
+import './App.css'; // Yeh import yahan bilkul sahi hai
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
