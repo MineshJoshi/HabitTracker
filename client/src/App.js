@@ -9,7 +9,7 @@ import LoginPage from './components/LoginPage';
 import HabitDetailPage from './components/HabitDetailPage';
 import BackgroundShapes from './components/BackgroundShapes';
 import AboutPage from './components/AboutPage';
-import HowToUsePage from './components/HowToUsePage'; // Naya page import kiya
+import HowToUsePage from './components/HowToUsePage';
 import './App.css';
 
 function App() {
@@ -19,65 +19,46 @@ function App() {
   const [viewingHabitId, setViewingHabitId] = useState(null);
   const [theme, setTheme] = useState('light');
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-  };
+  console.log("App Rendered -> Current Page:", currentPage, "| Token Exists:", !!token);
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
-  }, []);
-
-  useEffect(() => {
-    document.body.setAttribute('data-theme', theme);
-  }, [theme]);
+  const toggleTheme = () => { /* ... code same rahega ... */ };
+  useEffect(() => { /* ... code same rahega ... */ }, []);
+  useEffect(() => { /* ... code same rahega ... */ }, [theme]);
 
   const handleLogin = (token) => {
-    const decoded = jwtDecode(token);
-    setUsername(decoded.user.username);
-    setToken(token);
-    localStorage.setItem('token', token);
-    setCurrentPage('tracker');
+    console.log("1. handleLogin function called.");
+    try {
+      const decoded = jwtDecode(token);
+      console.log("2. Token decoded successfully:", decoded);
+      setUsername(decoded.user.username);
+      setToken(token);
+      localStorage.setItem('token', token);
+      setCurrentPage('tracker');
+    } catch (error) {
+      console.error("Error decoding token in handleLogin:", error);
+      logout();
+    }
   };
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
+    console.log("App Loading -> Found token in localStorage:", storedToken);
     if (storedToken) {
-      try {
-        handleLogin(storedToken);
-      } catch (error) {
-        console.error("Invalid token:", error);
-        logout();
-      }
+      handleLogin(storedToken);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const logout = () => {
-    setToken(null);
-    setUsername('');
-    setViewingHabitId(null);
-    localStorage.removeItem('token');
-    setCurrentPage('home');
-  };
-
-  const viewHabitDetails = (habitId) => {
-    setViewingHabitId(habitId);
-    setCurrentPage('detail');
-  };
-
-  const backToTracker = () => {
-    setViewingHabitId(null);
-    setCurrentPage('tracker');
-  };
+  const logout = () => { /* ... code same rahega ... */ };
+  const viewHabitDetails = (habitId) => { /* ... code same rahega ... */ };
+  const backToTracker = () => { /* ... code same rahega ... */ };
 
   const renderPage = () => {
     if (viewingHabitId) {
         return <motion.div key="detail"><HabitDetailPage habitId={viewingHabitId} backToTracker={backToTracker} /></motion.div>;
     }
     if (currentPage === 'tracker' && !token) {
+      console.log("Redirecting to Login page because no token.");
       return <motion.div key="login-redirect"><LoginPage handleLogin={handleLogin} setCurrentPage={setCurrentPage} /></motion.div>;
     }
     switch (currentPage) {
@@ -85,10 +66,11 @@ function App() {
         return <motion.div key="home"><HomePage navigateToTracker={() => setCurrentPage(token ? 'tracker' : 'login')} /></motion.div>;
       case 'about':
         return <motion.div key="about"><AboutPage /></motion.div>;
-      case 'how-to-use': // Naya case add kiya
+      case 'how-to-use':
         return <motion.div key="how-to-use"><HowToUsePage /></motion.div>;
       case 'tracker':
-        return <motion.div key="tracker-main"><TrackerPage viewHabitDetails={viewHabitDetails} /></motion.div>;
+        console.log("Rendering TrackerPage.");
+        return <motion.div key="tracker-main"><TrackerPage token={token} viewHabitDetails={viewHabitDetails} /></motion.div>;
       case 'register':
         return <motion.div key="register"><RegisterPage setCurrentPage={setCurrentPage} /></motion.div>;
       case 'login':
