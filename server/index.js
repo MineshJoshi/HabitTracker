@@ -11,10 +11,8 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// CORS ko update kiya taaki sirf aapki live website se request aa sake
-app.use(cors({
-  origin: 'https://habit-tracker-alpha-murex.vercel.app' 
-}));
+// CORS ko zyada flexible banaya
+app.use(cors()); 
 
 // Use routes
 app.use("/habits", habitRoutes);
