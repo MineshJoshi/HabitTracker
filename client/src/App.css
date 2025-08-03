@@ -224,17 +224,27 @@ button, .nav-brand, .habit-name-text, .status-box {
 }
 
 .header-row, .habit-row {
-  display: grid;
-  grid-template-columns: 2.5fr repeat(7, 1fr);
+  display: flex;
   align-items: center;
   padding: 12px 0;
   border-bottom: 1px solid var(--glass-border);
 }
 
-.habit-name-header, .date-header {
+.habit-name-header, .habit-name {
+  flex: 1 1 150px; /* Flexbox properties */
+}
+
+.date-headers-container, .status-boxes-container {
+  display: flex;
+  justify-content: space-around;
+  flex: 1 1 250px; /* Flexbox properties */
+}
+
+.date-header {
   font-weight: 600;
   text-align: center;
   color: var(--text-primary);
+  width: 32px; /* Fixed width */
 }
 .habit-name {
   color: var(--text-primary);
@@ -300,7 +310,7 @@ button, .nav-brand, .habit-name-text, .status-box {
 
 
 /* =================================
-   RESPONSIVE DESIGN (MOBILE VIEW) - IMPROVED
+   RESPONSIVE DESIGN (MOBILE VIEW) - FINAL
    ================================= */
 @media (max-width: 768px) {
   .content-area {
@@ -308,13 +318,13 @@ button, .nav-brand, .habit-name-text, .status-box {
   }
 
   .page-title {
-    font-size: 28px; /* Thoda aur chota kiya */
+    font-size: 28px;
     margin-bottom: 20px;
   }
 
   .navbar {
     padding: 10px;
-    flex-direction: column; /* Column me laaya */
+    flex-direction: column;
     gap: 10px;
   }
 
@@ -323,14 +333,14 @@ button, .nav-brand, .habit-name-text, .status-box {
   }
 
   .nav-links {
-    flex-wrap: wrap; /* Links ko wrap hone diya */
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 5px; /* Gap kam kiya */
+    gap: 5px;
   }
 
   .nav-link {
     font-size: 14px;
-    padding: 6px 12px; /* Padding kam ki */
+    padding: 6px 12px;
   }
 
   .homepage-content h1 {
@@ -341,38 +351,37 @@ button, .nav-brand, .habit-name-text, .status-box {
   }
 
   .app-container, .auth-container, .detail-page-container, .about-container {
-    padding: 15px; /* Padding kam ki */
+    padding: 15px;
   }
 
-  /* Tracker Table ko scrollable banaya */
-  .habit-tracker {
-    width: 100%;
-    overflow-x: auto; /* Horizontal scroll add kiya */
-    -webkit-overflow-scrolling: touch; /* Smooth scroll mobile par */
+  /* Tracker Table ko flexible banaya */
+  .header-row {
+    display: none; /* Desktop waala header hide kiya */
   }
 
-  .header-row, .habit-row {
-    min-width: 500px; /* Table ko ek minimum width di */
-    grid-template-columns: 120px repeat(7, 40px); /* Columns ko fixed width di */
-    gap: 5px;
+  .habit-row {
+    flex-direction: column; /* Habit name aur boxes ko upar-neeche laaya */
+    align-items: flex-start; /* Left se align kiya */
+    gap: 10px;
   }
-
+  
   .habit-name {
-    font-size: 14px;
-    padding-left: 5px;
+    width: 100%; /* Poori width di */
+    padding-left: 0;
   }
 
-  .date-header {
-    font-size: 12px;
+  .status-boxes-container {
+    width: 100%;
+    justify-content: space-between; /* Boxes ko poori jagah me failaya */
   }
 
   .status-box {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
   }
 
   .streak-counter {
-    display: none; /* Mobile par streak counter hide kiya */
+    display: none;
   }
 
   .react-calendar__tile {
