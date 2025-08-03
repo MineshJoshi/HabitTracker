@@ -1,136 +1,128 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import api from '../api';
+import React, { useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
+import { AnimatePresence, motion } from 'framer-motion';
+import Navbar from './components/Navbar';
+import HomePage from './components/HomePage';
+import TrackerPage from './components/TrackerPage';
+import RegisterPage from './components/RegisterPage';
+import LoginPage from './components/LoginPage';
+import HabitDetailPage from './components/HabitDetailPage';
+import BackgroundShapes from './components/BackgroundShapes';
+import AboutPage from './components/AboutPage';
+import HowToUsePage from './components/HowToUsePage';
+import './App.css';
 
-const getPast7Days = () => { const dates = []; for (let i = 6; i >= 0; i--) { const date = new Date(); date.setDate(date.getDate() - i); dates.push(date); } return dates; };
+function App() {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [token, setToken] = useState(null);
+  const [username, setUsername] = useState('');
+  const [viewingHabitId, setViewingHabitId] = useState(null);
+  const [theme, setTheme] = useState('light');
 
-function TrackerPage({ token, viewHabitDetails }) {
-  const [habits, setHabits] = useState([]);
-  const [newHabit, setNewHabit] = useState("");
-  const [goal, setGoal] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const weekDates = getPast7Days();
+  console.log("App Rendered -> Current Page:", currentPage, "| Token Exists:", !!token);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
 
   useEffect(() => {
-    if (token) {
-        fetchHabits();
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+  }, []);
+
+  useEffect(() => {
+    document.body.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const handleLogin = (token) => {
+    console.log("1. handleLogin function called.");
+    try {
+      const decoded = jwtDecode(token);
+      console.log("2. Token decoded successfully:", decoded);
+      setUsername(decoded.user.username);
+      setToken(token);
+      localStorage.setItem('token', token);
+      setCurrentPage('tracker');
+    } catch (error) {
+      console.error("Error decoding token in handleLogin:", error);
+      logout();
+    }
+  };
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    console.log("App Loading -> Found token in localStorage:", storedToken);
+    if (storedToken) {
+      handleLogin(storedToken);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, []);
 
-  const fetchHabits = async () => {
-    setIsLoading(true);
-    try {
-      const response = await api.get('/habits');
-      setHabits(response.data);
-    } catch (error) { 
-        console.error("Error fetching habits:", error);
-    } 
-    finally { setIsLoading(false); }
+  const logout = () => {
+    setToken(null);
+    setUsername('');
+    setViewingHabitId(null);
+    localStorage.removeItem('token');
+    setCurrentPage('home');
   };
 
-  const addHabit = async (e) => {
-    e.preventDefault();
-    if (!newHabit) return;
-    const response = await api.post('/habits', { name: newHabit, goal });
-    setHabits([response.data, ...habits]);
-    setNewHabit("");
-    setGoal("");
+  const viewHabitDetails = (habitId) => {
+    setViewingHabitId(habitId);
+    setCurrentPage('detail');
   };
 
-  const deleteHabit = async (habitId) => {
-    const originalHabits = [...habits];
-    setHabits(habits.filter((h) => h._id !== habitId));
-    try {
-      await api.delete(`/habits/${habitId}`);
-    } catch (error) {
-      setHabits(originalHabits);
-      console.error("Failed to delete habit");
+  const backToTracker = () => {
+    setViewingHabitId(null);
+    setCurrentPage('tracker');
+  };
+
+  const renderPage = () => {
+    if (viewingHabitId) {
+        return <motion.div key="detail"><HabitDetailPage habitId={viewingHabitId} backToTracker={backToTracker} /></motion.div>;
+    }
+    if (currentPage === 'tracker' && !token) {
+      console.log("Redirecting to Login page because no token.");
+      return <motion.div key="login-redirect"><LoginPage handleLogin={handleLogin} setCurrentPage={setCurrentPage} /></motion.div>;
+    }
+    switch (currentPage) {
+      case 'home':
+        return <motion.div key="home"><HomePage navigateToTracker={() => setCurrentPage(token ? 'tracker' : 'login')} /></motion.div>;
+      case 'about':
+        return <motion.div key="about"><AboutPage /></motion.div>;
+      case 'how-to-use':
+        return <motion.div key="how-to-use"><HowToUsePage /></motion.div>;
+      case 'tracker':
+        console.log("Rendering TrackerPage.");
+        return <motion.div key="tracker-main"><TrackerPage token={token} viewHabitDetails={viewHabitDetails} /></motion.div>;
+      case 'register':
+        return <motion.div key="register"><RegisterPage setCurrentPage={setCurrentPage} /></motion.div>;
+      case 'login':
+        return <motion.div key="login"><LoginPage handleLogin={handleLogin} setCurrentPage={setCurrentPage} /></motion.div>;
+      default:
+        return <motion.div key="default-home"><HomePage navigateToTracker={() => setCurrentPage(token ? 'tracker' : 'login')} /></motion.div>;
     }
   };
-
-  const updateHabitStatus = async (habitId, date, currentStatus) => {
-    const newStatus = currentStatus === "done" ? "not_done" : currentStatus === "not_done" ? "none" : "done";
-    const originalHabits = JSON.parse(JSON.stringify(habits));
-    const newHabits = habits.map(habit => {
-        if (habit._id === habitId) {
-            const dateExists = habit.dates.some(d => d.date === date);
-            let updatedDates;
-            if (dateExists) {
-                updatedDates = habit.dates.map(d => d.date === date ? { ...d, status: newStatus } : d);
-            } else {
-                updatedDates = [...habit.dates, { date, status: newStatus }];
-            }
-            return { ...habit, dates: updatedDates };
-        }
-        return habit;
-    });
-    setHabits(newHabits);
-    try {
-        const { data: updatedHabitFromServer } = await api.patch(`/habits/${habitId}`, { date, status: newStatus });
-        setHabits(currentHabits => currentHabits.map(h => h._id === habitId ? updatedHabitFromServer : h));
-    } catch (error) {
-        console.error("Failed to update status", error);
-        setHabits(originalHabits);
-    }
-  };
-  
-  const getStatusForDate = (habit, date) => { const record = habit.dates.find((d) => d.date === date); return record ? record.status : "none"; };
 
   return (
-    <div className="app-container">
-      <h2 className="page-title">Your Habits</h2>
-      <form onSubmit={addHabit} className="add-habit-form">
-        <input type="text" value={newHabit} onChange={(e) => setNewHabit(e.target.value)} placeholder="Add a new habit..." className="habit-input" />
-        <input type="number" value={goal} onChange={(e) => setGoal(e.target.value)} placeholder="Goal (days)" className="goal-input" />
-        <button type="submit">Add</button>
-      </form>
-      <div className="habit-tracker">
-        {isLoading ? ( <div className="status-message">Loading...</div> ) : habits.length === 0 ? ( <div className="status-message">No habits yet.</div> ) : (
-          <>
-            <div className="header-row">
-              <div className="habit-name-header">Habit</div>
-              <div className="date-headers-container">
-                {weekDates.map((date) => (
-                  <div key={date.toISOString()} className="date-header">
-                    <span className="day-name">{date.toLocaleDateString('en-US', { weekday: 'short' })}</span>
-                    <span className="day-number">{date.getDate()}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <AnimatePresence>
-              {habits.map((habit) => (
-                <motion.div key={habit._id} className={`habit-row ${habit.isCompleted ? 'completed' : ''}`} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  <div className="habit-name">
-                    <span className="habit-name-text" onClick={() => viewHabitDetails(habit._id)}>
-                      <span>{habit.name}</span>
-                      {habit.streak > 0 && ( <span className="streak-counter">🔥 {habit.streak}</span> )}
-                    </span>
-                    <button onClick={() => deleteHabit(habit._id)} className="delete-btn">🗑️</button>
-                  </div>
-                  {habit.goal > 0 && (
-                      <div className="progress-container">
-                        <div className="progress-bar" style={{ width: `${(habit.progress / habit.goal) * 100}%` }}></div>
-                        <span className="progress-text">{habit.progress}/{habit.goal} days</span>
-                      </div>
-                    )}
-                  <div className="status-boxes-container">
-                    {weekDates.map((date) => (
-                      <motion.div key={date.toISOString()} className={`status-box ${getStatusForDate(habit, date.toISOString().split('T')[0])}`}
-                        onClick={() => updateHabitStatus(habit._id, date.toISOString().split('T')[0], getStatusForDate(habit, date.toISOString().split('T')[0]))}
-                        whileTap={{ scale: 0.9 }}>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </>
-        )}
-      </div>
+    <div className="main-app">
+      <BackgroundShapes />
+      <Navbar 
+        currentPage={currentPage} 
+        setCurrentPage={setCurrentPage} 
+        token={token} 
+        logout={logout}
+        theme={theme}
+        toggleTheme={toggleTheme}
+      />
+      <main className="content-area">
+        <AnimatePresence mode="wait">
+          {renderPage()}
+        </AnimatePresence>
+      </main>
     </div>
   );
 }
 
-export default TrackerPage;
+export default App;
