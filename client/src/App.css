@@ -231,20 +231,21 @@ button, .nav-brand, .habit-name-text, .status-box {
 }
 
 .habit-name-header, .habit-name {
-  flex: 1 1 150px; /* Flexbox properties */
+  flex: 1 1 150px;
+  min-width: 120px;
 }
 
 .date-headers-container, .status-boxes-container {
   display: flex;
   justify-content: space-around;
-  flex: 1 1 250px; /* Flexbox properties */
+  flex: 1 1 250px;
 }
 
 .date-header {
   font-weight: 600;
   text-align: center;
   color: var(--text-primary);
-  width: 32px; /* Fixed width */
+  width: 32px;
 }
 .habit-name {
   color: var(--text-primary);
@@ -354,30 +355,33 @@ button, .nav-brand, .habit-name-text, .status-box {
     padding: 15px;
   }
 
-  /* Tracker Table ko flexible banaya */
   .header-row {
-    display: none; /* Desktop waala header hide kiya */
+    padding-left: 10px;
   }
 
   .habit-row {
-    flex-direction: column; /* Habit name aur boxes ko upar-neeche laaya */
-    align-items: flex-start; /* Left se align kiya */
-    gap: 10px;
-  }
-  
-  .habit-name {
-    width: 100%; /* Poori width di */
     padding-left: 0;
   }
 
-  .status-boxes-container {
-    width: 100%;
-    justify-content: space-between; /* Boxes ko poori jagah me failaya */
+  .habit-name-header, .habit-name {
+    flex: 1 1 100px; /* Habit name ke liye kam jagah */
+    min-width: 90px;
+    padding-left: 5px;
+    font-size: 14px;
+    overflow-wrap: break-word; /* Lambe naam ko todne ke liye */
+  }
+
+  .date-headers-container, .status-boxes-container {
+    flex: 1 1 200px; /* Dates ke liye zyada jagah */
+  }
+  
+  .date-header {
+    font-size: 12px;
   }
 
   .status-box {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
   }
 
   .streak-counter {
