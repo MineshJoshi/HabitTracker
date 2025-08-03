@@ -255,7 +255,6 @@ button, .nav-brand, .habit-name-text, .status-box {
 .status-box.not_done { background-color: var(--status-not-done-bg); }
 .status-box.none { background-color: var(--status-none-bg); }
 
-.streak-counter { background-color: var(--streak-bg); }
 .message { color: var(--btn-primary-bg); }
 
 .react-calendar { background: var(--status-none-bg); }
@@ -269,7 +268,6 @@ button, .nav-brand, .habit-name-text, .status-box {
 .delete-btn:hover { opacity: 1; transform: scale(1.2); }
 .status-box { text-align: center; width: 32px; height: 32px; margin: 0 auto; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
 .status-box:hover { transform: scale(1.1); box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
-.streak-counter { margin-left: 10px; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
 .status-message { text-align: center; padding: 40px 20px; color: var(--text-primary); font-size: 18px; font-weight: 500; }
 .auth-container h2 { margin-bottom: 25px; }
 .auth-form .form-group { margin-bottom: 20px; text-align: left; }
@@ -288,6 +286,15 @@ button, .nav-brand, .habit-name-text, .status-box {
 .auth-switch { margin-top: 25px; font-size: 14px; color: var(--text-secondary); }
 .auth-switch span { color: var(--btn-primary-bg); font-weight: 600; text-decoration: underline; }
 
+.streak-counter {
+  margin-left: 10px;
+  background-color: var(--streak-bg); /* Sahi line yahan hai */
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
 
 /* Background Shapes */
 .shapes-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; }
@@ -356,36 +363,46 @@ button, .nav-brand, .habit-name-text, .status-box {
   }
 
   .header-row {
-    padding-left: 10px;
+    display: none;
   }
 
   .habit-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .habit-name {
+    width: 100%;
     padding-left: 0;
   }
 
-  .habit-name-header, .habit-name {
-    flex: 1 1 100px; /* Habit name ke liye kam jagah */
-    min-width: 90px;
-    padding-left: 5px;
-    font-size: 14px;
-    overflow-wrap: break-word; /* Lambe naam ko todne ke liye */
+  .habit-name-text {
+    display: flex; /* Naya badlav */
+    align-items: center; /* Naya badlav */
+    flex-grow: 1; /* Naya badlav */
+    overflow: hidden; /* Naya badlav */
   }
 
-  .date-headers-container, .status-boxes-container {
-    flex: 1 1 200px; /* Dates ke liye zyada jagah */
+  .habit-name-text span:first-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  
-  .date-header {
-    font-size: 12px;
+
+  .status-boxes-container {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .status-box {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
   }
 
   .streak-counter {
-    display: none;
+    margin-left: 8px; /* Naya badlav */
+    flex-shrink: 0; /* Naya badlav */
   }
 
   .react-calendar__tile {
