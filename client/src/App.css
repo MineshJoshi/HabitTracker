@@ -287,8 +287,11 @@ button, .nav-brand, .habit-name-text, .status-box {
 .auth-switch span { color: var(--btn-primary-bg); font-weight: 600; text-decoration: underline; }
 
 .streak-counter {
+  display: inline-flex; /* Naya badlav */
+  align-items: center;   /* Naya badlav */
+  gap: 4px;              /* Naya badlav */
   margin-left: 10px;
-  background-color: var(--streak-bg); /* Sahi line yahan hai */
+  background-color: var(--streak-bg);
   color: white;
   padding: 2px 8px;
   border-radius: 12px;
@@ -378,13 +381,13 @@ button, .nav-brand, .habit-name-text, .status-box {
   }
 
   .habit-name-text {
-    display: flex; /* Naya badlav */
-    align-items: center; /* Naya badlav */
-    flex-grow: 1; /* Naya badlav */
-    overflow: hidden; /* Naya badlav */
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
   }
-
-  .habit-name-text span:first-child {
+  
+  .habit-name-text > span:first-of-type {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -401,8 +404,8 @@ button, .nav-brand, .habit-name-text, .status-box {
   }
 
   .streak-counter {
-    margin-left: 8px; /* Naya badlav */
-    flex-shrink: 0; /* Naya badlav */
+    margin-left: 8px;
+    flex-shrink: 0;
   }
 
   .react-calendar__tile {
