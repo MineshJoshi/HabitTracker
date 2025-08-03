@@ -102,7 +102,7 @@ button, .nav-brand, .habit-name-text, .status-box {
   position: relative;
   z-index: 2;
   transition: background 0.5s ease, border-bottom 0.5s ease;
-  flex-wrap: wrap; /* Navbar ko wrap hone ki permission di */
+  flex-wrap: wrap; 
 }
 
 .nav-brand {
@@ -161,7 +161,7 @@ button, .nav-brand, .habit-name-text, .status-box {
   background: rgba(0,0,0,0.1);
 }
 
-.homepage-container, .auth-container, .app-container, .detail-page-container {
+.homepage-container, .auth-container, .app-container, .detail-page-container, .about-container {
   width: 100%;
   padding: 30px;
   background: var(--glass-bg);
@@ -171,18 +171,19 @@ button, .nav-brand, .habit-name-text, .status-box {
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   transition: background 0.5s ease, border 0.5s ease;
-  box-sizing: border-box; /* Yeh zaroori hai */
+  box-sizing: border-box; 
 }
 .homepage-container { max-width: 600px; text-align: center; }
 .auth-container { max-width: 450px; text-align: center; }
 .app-container { max-width: 750px; }
 .detail-page-container { max-width: 800px; text-align: center; }
+.about-container { max-width: 700px; text-align: left; }
 
-.homepage-content h1, .auth-container h2, .detail-page-container h1 {
+.homepage-content h1, .auth-container h2, .detail-page-container h1, .about-container h2 {
   color: var(--text-primary);
   margin-bottom: 25px;
 }
-.homepage-content p, .auth-form label {
+.homepage-content p, .auth-form label, .about-container p {
   color: var(--text-secondary);
 }
 
@@ -271,6 +272,11 @@ button, .nav-brand, .habit-name-text, .status-box {
 .react-calendar { width: 100%; border: none; border-radius: 8px; }
 .react-calendar__tile { border-radius: 8px; height: 60px; }
 .calendar-tile.none { background-color: var(--status-none-bg) !important; }
+.about-container h2 { text-align: center; }
+.about-container p { line-height: 1.8; margin-bottom: 20px; }
+.auth-switch { margin-top: 25px; font-size: 14px; color: var(--text-secondary); }
+.auth-switch span { color: var(--btn-primary-bg); font-weight: 600; text-decoration: underline; }
+
 
 /* Background Shapes */
 .shapes-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; }
@@ -294,7 +300,7 @@ button, .nav-brand, .habit-name-text, .status-box {
 
 
 /* =================================
-   RESPONSIVE DESIGN (MOBILE VIEW)
+   RESPONSIVE DESIGN (MOBILE VIEW) - IMPROVED
    ================================= */
 @media (max-width: 768px) {
   .content-area {
@@ -302,40 +308,58 @@ button, .nav-brand, .habit-name-text, .status-box {
   }
 
   .page-title {
-    font-size: 32px;
+    font-size: 28px; /* Thoda aur chota kiya */
     margin-bottom: 20px;
   }
 
   .navbar {
-    padding: 10px 15px;
-    justify-content: center; /* Center me laaya */
-    gap: 10px; /* Thoda gap diya */
+    padding: 10px;
+    flex-direction: column; /* Column me laaya */
+    gap: 10px;
   }
 
   .nav-brand {
-    width: 100%; /* Poori width di */
-    text-align: center; /* Center me laaya */
     margin-bottom: 10px;
   }
 
   .nav-links {
+    flex-wrap: wrap; /* Links ko wrap hone diya */
     justify-content: center;
-    width: 100%;
+    gap: 5px; /* Gap kam kiya */
+  }
+
+  .nav-link {
+    font-size: 14px;
+    padding: 6px 12px; /* Padding kam ki */
   }
 
   .homepage-content h1 {
-    font-size: 36px;
+    font-size: 32px;
+  }
+  .homepage-content p {
+    font-size: 16px;
+  }
+
+  .app-container, .auth-container, .detail-page-container, .about-container {
+    padding: 15px; /* Padding kam ki */
+  }
+
+  /* Tracker Table ko scrollable banaya */
+  .habit-tracker {
+    width: 100%;
+    overflow-x: auto; /* Horizontal scroll add kiya */
+    -webkit-overflow-scrolling: touch; /* Smooth scroll mobile par */
   }
 
   .header-row, .habit-row {
-    grid-template-columns: 1.5fr repeat(7, 1fr); /* Habit name ko thodi kam jagah */
-    padding: 8px 0;
+    min-width: 500px; /* Table ko ek minimum width di */
+    grid-template-columns: 120px repeat(7, 40px); /* Columns ko fixed width di */
+    gap: 5px;
   }
 
   .habit-name {
     font-size: 14px;
     padding-left: 5px;
-    word-break: break-word; /* Lambe naam ko todne ke liye */
   }
 
   .date-header {
@@ -348,42 +372,10 @@ button, .nav-brand, .habit-name-text, .status-box {
   }
 
   .streak-counter {
-    font-size: 10px;
-    padding: 1px 6px;
-    margin-left: 5px;
+    display: none; /* Mobile par streak counter hide kiya */
   }
 
   .react-calendar__tile {
-    height: 45px; /* Calendar ko chota kiya */
+    height: 40px;
   }
-}
-
-/* About Page Styles */
-.about-container {
-  max-width: 700px;
-  padding: 40px !important;
-  text-align: left;
-}
-.about-container h2 {
-  text-align: center;
-  margin-bottom: 25px;
-  color: var(--text-primary);
-}
-.about-container p {
-  line-height: 1.8;
-  margin-bottom: 20px;
-  color: var(--text-secondary);
-}
-
-/* Auth Page Switch Link Styles */
-.auth-switch {
-  margin-top: 25px;
-  font-size: 14px;
-  color: var(--text-secondary);
-}
-.auth-switch span {
-  color: var(--btn-primary-bg);
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: underline;
 }
