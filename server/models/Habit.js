@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const habitSchema = new mongoose.Schema({
-  // Naya field add kiya
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -10,6 +9,14 @@ const habitSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+  },
+  goal: { // Naya field: Kitne din ka target hai
+    type: Number,
+    default: 0, // 0 ka matlab koi specific goal nahi
+  },
+  isCompleted: { // Naya field: Goal poora hua ya nahi
+    type: Boolean,
+    default: false,
   },
   dates: [
     {
